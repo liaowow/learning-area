@@ -11,15 +11,39 @@
   </head>
   <body>
     <p class="clock"></p>
+    <button class="start">Start</button>
+    <button class="stop">Stop</button>
+    <button class="reset">Reset</button>
     <script>
-      function displayTime() {
-        let date = new Date();
-        let time = date.toLocaleTimeString();
-        document.querySelector('.clock').textContent = time;
+      let startCount = 0
+      let stopWatch;
+      function displayWatch() {
+        document.querySelector('.clock').textContent = startCount;
+        startCount++
       }
 
-      displayTime();
-      const createClock = setInterval(displayTime, 1000);
+      const startBtn = document.querySelector('.start');
+      startBtn.addEventListener('click', () => {
+        stopWatch = setInterval(displayWatch, 1000);
+        startBtn.disabled = true;
+        startBtn.textContent = 'Resume';
+      });
+      
+      const stopBtn = document.querySelector('.stop');
+      stopBtn.addEventListener('click', () => {
+        clearInterval(stopWatch);
+        startBtn.disabled = false;
+      })
+
+      const resetBtn = document.querySelector('.reset');
+      resetBtn.addEventListener('click', () => {
+        clearInterval(stopWatch);
+        startCount = 0;
+        startBtn.disabled = false;
+        startBtn.textContent = 'Start';
+        displayWatch();
+      })
+      displayWatch();
     </script>
   </body>
 </html>
